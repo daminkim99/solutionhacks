@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 10vh;
+  min-width: 200vh;
+  background-color:rgb(158, 187, 186);
 }
 
 .logo {
