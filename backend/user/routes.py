@@ -93,6 +93,26 @@ def get_other_tasks():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@user_bp.route("/task/accept", methods=["POST"])
+def accept_task_route():
+    """
+    Endpoint to accept a task. Expects a JSON body with 'task_id' and 'acceptor_email'.
+    """
+    data = request.get_json()
+    task_id = data.get("task_id")
+    acceptor_email = data.get("acceptor_email")
+
+    if not task_id or not acceptor_email:
+        return jsonify({"error": "Missing task_id or acceptor_email"}), 400
+
+    success = User.accept_task(task_id, acceptor_email)
+
+    if success:
+        return jsonify({"message": "Task accepted successfully"}), 200
+    else:
+        return jsonify({"error": "Task not found or could not be updated"}), 404
+
+
 @user_bp.route('/test', methods=['POST'])
 def test_post():
     data = request.get_json()

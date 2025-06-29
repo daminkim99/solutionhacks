@@ -89,3 +89,21 @@ class User:
                     task['creator_name'] = user.get('name', 'Unknown User')
                     all_tasks.append(task)
         return all_tasks
+
+    def accept_task(task_id, acceptor_email):
+        """
+        Finds a task by its ID and marks it as accepted by a specific user.
+        """
+        # The positional '$' operator updates the first element in an array that matches the query.
+        # Here, it finds the correct task in the 'tasks' array and updates its fields.
+        result = collection.update_one(
+            {"tasks.task_id": task_id},
+            {
+                "$set": {
+                    "tasks.$.accepted": True,
+                    "tasks.$.accepted_by": acceptor_email
+                }
+            }
+        )
+        # modified_count will be 1 if the update was successful, 0 otherwise.
+        return result.modified_count > 0
