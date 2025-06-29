@@ -28,7 +28,7 @@ class User:
 
     # Get the user email from the data
         user_email = data.get("email")
-    
+        print("user email", user_email)
     # Create the new task using your existing structure
         new_task = {
             "task_id": str(ObjectId()),  # Add a unique task ID

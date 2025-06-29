@@ -39,7 +39,7 @@ def login():
     user = User.login(data)
 
     if user:
-        return jsonify({"message": "Login successful"}), 200
+        return user
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
