@@ -34,7 +34,7 @@ const Add = () => {
       console.error('Submission error:', error.response?.data || error.message);
       alert('Failed to submit task');
     }
-  };
+ };
 
   return (
     <div>
@@ -46,27 +46,27 @@ const Add = () => {
         <form className="task-form" onSubmit={handleSubmit}>
           <label>
             Name:
-            <input type="text" placeholder="Enter your name" value={formData.name} onChange={handleChange}/>
+            <input type="text" name="name" placeholder="Enter your name" value={formData.name} onChange={handleChange}/>
           </label>
 
           <label>
             Address:
-            <input type="text" placeholder="Enter your address" value={formData.address} onChange={handleChange}/>
+            <input type="text" name="address" placeholder="Enter your address" value={formData.address} onChange={handleChange}/>
           </label>
 
           <label>
             Task Type:
-            <input type="text" placeholder="e.g., Grocery pickup" value={formData.taskType} onChange={handleChange}/>
+            <input type="text" name="taskType" placeholder="e.g., Grocery pickup" value={formData.taskType} onChange={handleChange}/>
           </label>
 
           <label>
             Date:
-            <input type="date" value={formData.date} onChange={handleChange}/>
+            <input type="date" name="date" value={formData.date} onChange={handleChange}/>
           </label>
 
           <label>
             Description:
-            <textarea placeholder="Enter task details..." value={formData.description} onChange={handleChange}></textarea>
+            <textarea placeholder="Enter task details..." name="description" value={formData.description} onChange={handleChange}></textarea>
           </label>
 
 
