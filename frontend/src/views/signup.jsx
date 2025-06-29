@@ -17,6 +17,7 @@ export function Login() {
         email,
         password
       });
+      console.log('Login response:', response);
         // This is where you store the email after successful login
       localStorage.setItem('userEmail', response.data.email);
       
@@ -28,7 +29,9 @@ export function Login() {
       navigate('/home');
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
+      console.error('Error details:', error);
       alert('Login failed');
+
       
     }
   }

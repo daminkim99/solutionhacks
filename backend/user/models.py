@@ -39,6 +39,8 @@ class User:
             "description": data.get("description"),  
             "accepted": False
             }
+        
+
     
     # Find the user and update their tasks array
         result = collection.update_one(
@@ -58,3 +60,15 @@ class User:
             return new_task
         else:
             return None
+        
+    def get_user_tasks(email):
+ 
+    # Find the user with the specified email
+        user = collection.find_one({"email": email})
+    
+        # If no user found or user has no tasks, return empty list
+        if not user or "tasks" not in user:
+            return []
+            
+        # Return the user's tasks
+        return user.get("tasks", [])
