@@ -1,9 +1,9 @@
 import './App.css';
-import { Login } from './views/signup'; // adjust the path if needed
+import Add from './views/add'; // adjust the path if needed
 
 function App() {
   return (
-    <Login />
+    <Add />
   );
 }
 
@@ -44,4 +44,4 @@ function App() {
   )
 }
 
-export default App
+export default App */
