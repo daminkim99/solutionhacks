@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import '../App.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export function Add() {
   const [formData, setFormData] = useState({
@@ -13,6 +15,9 @@ export function Add() {
     // paid: false,
     // transportation: false,
   });
+  const navigate = useNavigate();
+
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -36,9 +41,10 @@ export function Add() {
     console.log('Submitting task:', formData);
 
     try {
-      const response = await axios.post('http://localhost:8000/tasks', formData);
+      const response = await axios.post('http://localhost:8000/tasks', dataToSend);
       alert('Task submitted successfully!');
       console.log('Server response:', response.data);
+      navigate('/home'); // Redirect to homepage after successful submission
     } catch (error) {
       console.error('Submission error:', error.response?.data || error.message);
       alert('Failed to submit task');

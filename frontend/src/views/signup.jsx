@@ -22,15 +22,17 @@ export function Login() {
       
       console.log('API response:', response.data);
       // ✅ Do something with the response - should put navigate('/home'); here
+
+
       alert('Login successful!');
+      navigate('/home');
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
       alert('Login failed');
-      //NEWWW
-      navigate('/home');
+      
     }
   }
-
+     
   return (
     <div style={{
       minHeight: '80vh',
