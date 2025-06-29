@@ -6,12 +6,12 @@ const Add = () => {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
-    taskType: '',
+    task: '',
     date: '',
     description: '',
-    urgent: false,
-    paid: false,
-    transportation: false,
+    // urgent: false,
+    // paid: false,
+    // transportation: false,
   });
 
   const handleChange = (e) => {
@@ -24,10 +24,19 @@ const Add = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+     // Get user email from localStorage or context/redux
+    const userEmail = localStorage.getItem('userEmail');
+
+    // Combine user email with form data
+    const dataToSend = {
+      ...formData,
+      email: userEmail 
+    };
     console.log('Submitting task:', formData);
 
     try {
-      const response = await axios.post('http://localhost:5000/tasks', formData);
+      const response = await axios.post('http://localhost:8000/tasks', formData);
       alert('Task submitted successfully!');
       console.log('Server response:', response.data);
     } catch (error) {
@@ -56,7 +65,7 @@ const Add = () => {
 
           <label>
             Task Type:
-            <input type="text" name="taskType" placeholder="e.g., Grocery pickup" value={formData.taskType} onChange={handleChange}/>
+            <input type="text" name="task" placeholder="e.g., Grocery pickup" value={formData.taskType} onChange={handleChange}/>
           </label>
 
           <label>
@@ -70,7 +79,7 @@ const Add = () => {
           </label>
 
 
-        {/*Checkboxes section */}
+        {/* Checkboxes section
         <fieldset className="checkbox-group">
             <legend>Options:</legend>
 
@@ -88,7 +97,7 @@ const Add = () => {
                 <input type="checkbox" name="transportation" checked={formData.transportation} onChange={handleChange} />
                 Requires Transportation
             </label>
-        </fieldset>
+        </fieldset> */}
 
         {/*Submit Button */}
             <button type="submit">Post Task</button>
