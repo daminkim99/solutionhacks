@@ -72,3 +72,20 @@ class User:
             
         # Return the user's tasks
         return user.get("tasks", [])
+
+    def get_other_users_tasks(current_user_email):
+        """
+        Finds all tasks posted by users other than the current user.
+        """
+        # Use the $ne (not equal) operator to find all other users
+        other_users_cursor = collection.find({"email": {"$ne": current_user_email}})
+        
+        all_tasks = []
+        for user in other_users_cursor:
+            # Check if the user has tasks and the tasks list is not empty
+            if "tasks" in user and user["tasks"]:
+                for task in user["tasks"]:
+                    # Add the creator's name to each task for display purposes
+                    task['creator_name'] = user.get('name', 'Unknown User')
+                    all_tasks.append(task)
+        return all_tasks

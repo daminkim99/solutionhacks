@@ -78,6 +78,21 @@ def get_user_tasks():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@user_bp.route("/other-tasks", methods=["GET"])
+def get_other_tasks():
+    """
+    Endpoint to get all tasks from users other than the one specified.
+    """
+    user_email = request.args.get("email")
+    if not user_email:
+        return jsonify({"error": "Current user email parameter is required"}), 400
+    
+    try:
+        tasks = User.get_other_users_tasks(user_email)
+        return jsonify({"tasks": tasks}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @user_bp.route('/test', methods=['POST'])
 def test_post():
     data = request.get_json()
