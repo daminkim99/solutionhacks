@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import '../App.css';
 
-const Add = () => {
+export function Add() {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
