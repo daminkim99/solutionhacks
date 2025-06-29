@@ -12,7 +12,7 @@ export function Login() {
     // Here you can call an API to log in
     ///////////////////////////////////
     try {
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post('http://localhost:8000/user/login', {
         email,
         password
       });
@@ -25,8 +25,6 @@ export function Login() {
     }
     /////////////////
   }
-
-  
 
   return (
     <div style={{ padding: '2rem', maxWidth: '400px', margin: 'auto' }}>
