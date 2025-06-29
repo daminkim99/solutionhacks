@@ -45,6 +45,10 @@ export function Homepage() {
     navigate('/add-task');
   };
 
+  const toBrowseTasks = () => {
+    navigate('/browse');
+  };
+
   return (
     <>
       {popup && (
@@ -87,20 +91,36 @@ export function Homepage() {
           }}>
             Task Board
           </h1>
-          <button style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#000000',
-            color: '#ffffff',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontWeight: 700,
-            fontSize: '1.2rem',
-            boxShadow: '0 3px 8px rgba(0,0,0,0.3)'
-          }}
-            onClick={toAddTask}>
-            Add Request
-          </button>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <button style={{
+              padding: '0.75rem 1.5rem',
+              backgroundColor: '#000000',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontWeight: 700,
+              fontSize: '1.2rem',
+              boxShadow: '0 3px 8px rgba(0,0,0,0.3)'
+            }}
+              onClick={toAddTask}>
+              Add Request
+            </button>
+            <button style={{
+              padding: '0.75rem 1.5rem',
+              backgroundColor: '#000000',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontWeight: 700,
+              fontSize: '1.2rem',
+              boxShadow: '0 3px 8px rgba(0,0,0,0.3)'
+            }}
+              onClick={toBrowseTasks}>
+              Available Tasks
+            </button>
+          </div>
         </div>
 
         <h2 style={{
