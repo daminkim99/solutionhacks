@@ -13,7 +13,7 @@ export function Login() {
     console.log('Logging in with:', { email, password });
 
     try {
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post('http://localhost:8000/user/login', {
         email,
         password
       });
