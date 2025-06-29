@@ -1,7 +1,7 @@
 import React from 'react';
 import '../App.css';
 
-const Add = () => {
+export function Add() {
   return (
     <div>
       <h1 className="task-title">Task Creator</h1>
@@ -63,5 +63,3 @@ const Add = () => {
     </div>
   );
 };
-
-export default Add;

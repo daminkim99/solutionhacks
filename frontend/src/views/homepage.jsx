@@ -1,13 +1,19 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function Homepage() {
   const [popup, setPopup] = useState(false);
+  const navigate = useNavigate();
 
   const handleAccept = (name) => {
     console.log(`${name}'s request accepted!`);
     setPopup(true);
     setTimeout(() => setPopup(false), 2000); // Popup disappears after 2 seconds
   };
+
+  const toAddTask= () => {
+    navigate('/add-task');
+  }
 
   return (
     <>
@@ -63,7 +69,7 @@ export function Homepage() {
             fontSize: '1.2rem',
             boxShadow: '0 3px 8px rgba(0,0,0,0.3)'
           }}
-            onClick={() => <p>HELL</p>}>
+            onClick={toAddTask}>
             Add Request
           </button>
         </div>
