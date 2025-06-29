@@ -43,7 +43,27 @@ def login():
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
- 
+ #Adding a task route 
+
+@user_bp.route("/tasks", methods=["POST"])
+def add_task():
+    data = request.get_json()
+    print("Data is ", data)
+    if not data:
+        return jsonify({"error": "Invalid or missing JSON"}), 400
+
+    # Here you would typically save the task to a database
+    # For now, we will just return the received data
+    # return jsonify({"task": data}), 201
+
+    try:
+        result = User.add_task(data) 
+        return jsonify({"message": "Task added successfully", "task": result}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return "SUCCESSFUL"
+
+
 
 @user_bp.route('/test', methods=['POST'])
 def test_post():

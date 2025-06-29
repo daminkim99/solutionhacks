@@ -17,6 +17,9 @@ export function Login() {
         email,
         password
       });
+        // This is where you store the email after successful login
+      localStorage.setItem('userEmail', response.data.email);
+      
       console.log('API response:', response.data);
       // ✅ Do something with the response - should put navigate('/home'); here
       alert('Login successful!');
