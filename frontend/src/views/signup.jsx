@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  //NEWWW - this is the issue
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -15,11 +18,13 @@ export function Login() {
         password
       });
       console.log('API response:', response.data);
-      // ✅ Do something with the response
+      // ✅ Do something with the response - should put navigate('/home'); here
       alert('Login successful!');
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
       alert('Login failed');
+      //NEWWW
+      navigate('/home');
     }
   }
 

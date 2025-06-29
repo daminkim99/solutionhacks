@@ -97,5 +97,3 @@ const Add = () => {
     </div>
   );
 };
-
-export default Add;
