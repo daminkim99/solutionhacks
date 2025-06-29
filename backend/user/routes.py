@@ -63,7 +63,20 @@ def add_task():
         return jsonify({"error": str(e)}), 500
     return "SUCCESSFUL"
 
-
+@user_bp.route("/tasks", methods=["GET"])
+def get_user_tasks():
+    # Get the current user's email from the query parameter
+    user_email = request.args.get("email")
+    
+    if not user_email:
+        return jsonify({"error": "Email parameter is required"}), 400
+        
+    try:
+        # Change this line to use get_user_tasks instead of get_other_users_tasks
+        tasks = User.get_user_tasks(user_email)
+        return jsonify({"tasks": tasks}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @user_bp.route('/test', methods=['POST'])
 def test_post():

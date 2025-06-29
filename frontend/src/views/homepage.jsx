@@ -1,19 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export function Homepage() {
   const [popup, setPopup] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  
+  // Fetch tasks when component mounts
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const userEmail = localStorage.getItem('userEmail');
+        if (!userEmail) {
+          setError("User not logged in");
+          setLoading(false);
+          return;
+        }
+        console.log("Fetching tasks for user:", userEmail);
+        const response = await axios.get(`http://localhost:8000/tasks?email=${userEmail}`);
+        console.log("Fetched response:", response);
+        setTasks(response.data.tasks);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching tasks:", err);
+        setError("Failed to load tasks");
+        setLoading(false);
+      }
+    };
+    
+    fetchTasks();
+  }, []);
 
-  const handleAccept = (name) => {
-    console.log(`${name}'s request accepted!`);
+  const handleAccept = (taskId) => {
+    // Here you would implement logic to mark the task as accepted in the database
+    console.log(`Task ${taskId} accepted!`);
     setPopup(true);
-    setTimeout(() => setPopup(false), 2000); // Popup disappears after 2 seconds
+    setTimeout(() => setPopup(false), 2000);
   };
 
-  const toAddTask= () => {
+  const toAddTask = () => {
     navigate('/add-task');
-  }
+  };
 
   return (
     <>
@@ -42,7 +72,6 @@ export function Homepage() {
         padding: '2rem',
         fontFamily: `'Cascadia Code', 'Cascadia Code', Cascadia Code`
       }}>
-
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -56,7 +85,7 @@ export function Homepage() {
             margin: 0,
             transform: 'translateX(460px)'
           }}>
-            Insert Name Here
+            Task Board
           </h1>
           <button style={{
             padding: '0.75rem 1.5rem',
@@ -85,154 +114,75 @@ export function Homepage() {
           Tasks:
         </h2>
 
+        {loading && <p>Loading tasks...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        
         <div style={{
           display: 'flex',
           flexDirection: 'row',
           gap: '1.5rem',
           position: 'relative',
           left: '2rem',
-          top: '1rem'
+          top: '1rem',
+          flexWrap: 'wrap'
         }}>
-          {/* CARD 1 */}
-          <div style={{
-            backgroundColor: '#8cbdb2',
-            width: '240px',
-            padding: '1rem',
-            borderRadius: '16px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            fontFamily: `'Segoe UI', 'Helvetica Neue', sans-serif`
-          }}>
-            <div style={{
-              backgroundColor: '#ffffff',
-              color: '#333',
-              fontWeight: 600,
-              padding: '0.3rem 0.7rem',
-              borderRadius: '12px',
-              alignSelf: 'flex-start',
-              fontSize: '0.9rem',
-              marginBottom: '1rem'
-            }}>
-              Request: Dinner Help
-            </div>
-            <div style={{ color: '#000000', fontSize: '0.88rem', lineHeight: '1.6' }}>
-              <p><strong>Name:</strong><br />Sarah Williams</p>
-              <p><strong>Address:</strong><br />123 Olive Lane</p>
-              <p><strong>Date:</strong><br />2025/07/03</p>
-              <p><strong>Description:</strong><br />Need dinner prepared and dropped off Monday evening.</p>
-            </div>
-            <button onClick={() => handleAccept("Sarah")} style={{
-              marginTop: '1.2rem',
-              padding: '0.5rem 1rem',
-              backgroundColor: '#ffffff',
-              color: '#000000',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              alignSelf: 'center',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              boxShadow: '0 1px 4px rgba(0,0,0,0.2)'
-            }}>
-              Accept
-            </button>
-          </div>
-
-          {/* CARD 2 */}
-          <div style={{
-            backgroundColor: '#8cbdb2',
-            width: '240px',
-            padding: '1rem',
-            borderRadius: '16px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            fontFamily: `'Segoe UI', 'Helvetica Neue', sans-serif`
-          }}>
-            <div style={{
-              backgroundColor: '#ffffff',
-              color: '#333',
-              fontWeight: 600,
-              padding: '0.3rem 0.7rem',
-              borderRadius: '12px',
-              alignSelf: 'flex-start',
-              fontSize: '0.9rem',
-              marginBottom: '1rem'
-            }}>
-              Request: Child Pickup
-            </div>
-            <div style={{ color: '#000000', fontSize: '0.88rem', lineHeight: '1.6' }}>
-              <p><strong>Name:</strong><br />Amy Davis</p>
-              <p><strong>Address:</strong><br />45 Maple Crescent</p>
-              <p><strong>Date:</strong><br />2025/07/02</p>
-              <p><strong>Description:</strong><br />Pick up son from school Thursday at 3 PM.</p>
-            </div>
-            <button onClick={() => handleAccept("Amy")} style={{
-              marginTop: '1.2rem',
-              padding: '0.5rem 1rem',
-              backgroundColor: '#ffffff',
-              color: '#000000',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              alignSelf: 'center',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              boxShadow: '0 1px 4px rgba(0,0,0,0.2)'
-            }}>
-              Accept
-            </button>
-          </div>
-
-          {/* CARD 3 */}
-          <div style={{
-            backgroundColor: '#8cbdb2',
-            width: '240px',
-            padding: '1rem',
-            borderRadius: '16px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            fontFamily: `'Segoe UI', 'Helvetica Neue', sans-serif`
-          }}>
-            <div style={{
-              backgroundColor: '#ffffff',
-              color: '#333',
-              fontWeight: 600,
-              padding: '0.3rem 0.7rem',
-              borderRadius: '12px',
-              alignSelf: 'flex-start',
-              fontSize: '0.9rem',
-              marginBottom: '1rem'
-            }}>
-              Request: Grocery Delivery
-            </div>
-            <div style={{ color: '#000000', fontSize: '0.88rem', lineHeight: '1.6' }}>
-              <p><strong>Name:</strong><br />James Brown</p>
-              <p><strong>Address:</strong><br />78 Cedar Grove</p>
-              <p><strong>Date:</strong><br />2025-06-30</p>
-              <p><strong>Description:</strong><br />Needs groceries delivered this weekend.</p>
-            </div>
-            <button onClick={() => handleAccept("James")} style={{
-              marginTop: '1.2rem',
-              padding: '0.5rem 1rem',
-              backgroundColor: '#ffffff',
-              color: '#000000',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              alignSelf: 'center',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              boxShadow: '0 1px 4px rgba(0,0,0,0.2)'
-            }}>
-              Accept
-            </button>
-          </div>
+          {tasks.length === 0 && !loading && !error ? (
+            <p>No tasks available at the moment.</p>
+          ) : (
+            tasks.map((task) => (
+              <div 
+                key={task.task_id} 
+                style={{
+                  backgroundColor: '#8cbdb2',
+                  width: '240px',
+                  padding: '1rem',
+                  borderRadius: '16px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  fontFamily: `'Segoe UI', 'Helvetica Neue', sans-serif`
+                }}
+              >
+                <div style={{
+                  backgroundColor: '#ffffff',
+                  color: '#333',
+                  fontWeight: 600,
+                  padding: '0.3rem 0.7rem',
+                  borderRadius: '12px',
+                  alignSelf: 'flex-start',
+                  fontSize: '0.9rem',
+                  marginBottom: '1rem'
+                }}>
+                  Request: {task.task}
+                </div>
+                <div style={{ color: '#000000', fontSize: '0.88rem', lineHeight: '1.6' }}>
+                  <p><strong>Name:</strong><br />{task.name}</p>
+                  <p><strong>Address:</strong><br />{task.address}</p>
+                  <p><strong>Date:</strong><br />{task.date}</p>
+                  <p><strong>Description:</strong><br />{task.description}</p>
+                </div>
+                <button 
+                  onClick={() => handleAccept(task.task_id)} 
+                  style={{
+                    marginTop: '1.2rem',
+                    padding: '0.5rem 1rem',
+                    backgroundColor: '#ffffff',
+                    color: '#000000',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    alignSelf: 'center',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    boxShadow: '0 1px 4px rgba(0,0,0,0.2)'
+                  }}
+                >
+                  Accept
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </>
